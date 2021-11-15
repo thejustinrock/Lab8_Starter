@@ -56,16 +56,22 @@ describe('Basic user flow for Website', () => {
     // Once you have the innerText property, use innerText['_remoteObject'].value to get the text value of it
 
     let changeAll = true;
+    let theShadowRoot; 
+    let theButton;
+    let innerText;
+    let theText;
+    // Query select all of the <product-item> elements
     const theItems = await page.$$('product-item');
-    let theShadowRoot = await theItems[0].getProperty('shadowRoot');
-    let theButton = await theShadowRoot.$('button');
+    theShadowRoot = await theItems[0].getProperty('shadowRoot');
+    theButton = await theShadowRoot.$('button');
     await theButton.click();
-    let innerText = await theButton.getProperty('innerText');
-    let theText = await innerText['_remoteObject'].value;
-
-    if (theText != 'Remove from Cart'){
+    innerText = await theButton.getProperty('innerText');
+    theText = await innerText['_remoteObject'].value;
+    if(theText != 'Remove from Cart'){
       changeAll = false;
     }
+
+    await theButton.click();
 
     expect(changeAll).toBe(true);
 
@@ -220,3 +226,4 @@ describe('Basic user flow for Website', () => {
 
   });
 });
+
